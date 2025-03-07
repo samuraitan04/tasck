@@ -12,8 +12,7 @@ def get_base64_encoded_image(image_path):
 
 st.set_page_config(layout="wide", page_title="TASCK")
 
-background_image_url = "https://imgs.search.brave.com/CkKc23skkdLEW83Cn_cKYUAr_pEkk89sZOIQsz3SNxo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvMjY0/MTA5Mi5naWY.gif"
-
+background_image_url = "https://media1.giphy.com/media/L2HuVpmuQhK3nu2vfz/giphy.webp?cid=ecf05e47rswuxbqubf8tjsxos6j4rpibg6c29g1h9ivwbu7d&ep=v1_gifs_search&rid=giphy.webp&ct=g"
 st.markdown(f"""
 <style>
     .stApp {{
@@ -196,6 +195,17 @@ def generate_subtasks(task_description):
         st.error(f"Error generating subtasks: {e}")
         return []
 
+def check_subtasks_completion(task):
+    if not task.get("subtasks"):
+        return task.get("done", False)
+    return all(subtask.get("done", False) for subtask in task.get("subtasks", []))
+
+def update_task_completion(task_index):
+    if task_index is not None and 0 <= task_index < len(st.session_state.todos):
+        todo = st.session_state.todos[task_index]
+        if todo.get("subtasks"):
+            todo["done"] = check_subtasks_completion(todo)
+
 col1, col2 = st.columns([1, 2])
 
 with col1:
@@ -240,6 +250,7 @@ with col1:
                     
                     if sub_checked != subtask.get("done", False):
                         todo["subtasks"][j]["done"] = sub_checked
+                        update_task_completion(i)
                         st.rerun()
         
         with col_edit:
@@ -256,8 +267,14 @@ with col1:
         st.rerun()
     
     if st.button("Remove Completed Tasks"):
+        # First, remove completed subtasks from remaining tasks
+        for todo in st.session_state.todos:
+            if todo.get("subtasks"):
+                todo["subtasks"] = [subtask for subtask in todo["subtasks"] if not subtask.get("done", False)]
+        
+        # Then remove completed main tasks
         st.session_state.todos = [todo for todo in st.session_state.todos if not todo.get("done", False)]
-        st.success("Completed tasks removed!")
+        st.success("Completed tasks and subtasks removed!")
         st.rerun()
 
 with col2:
@@ -278,11 +295,13 @@ with col2:
             col_check, col_text, col_delete = st.columns([0.1, 0.7, 0.2])
             
             with col_check:
-                checked = st.checkbox("", value=subtask.get("done", False) or selected_todo.get("done", False), 
+                checked = st.checkbox("", 
+                                   value=subtask.get("done", False) or selected_todo.get("done", False), 
                                    key=f"subtask_{i}", 
-                                   disabled=selected_todo.get("done", False))
+                                   disabled=False)
                 if checked != subtask.get("done", False):
                     selected_todo["subtasks"][i]["done"] = checked
+                    update_task_completion(st.session_state.selected_task)
                     st.rerun()
             
             with col_text:
@@ -296,6 +315,7 @@ with col2:
             with col_delete:
                 if st.button("🗑", key=f"delete_subtask_{i}"):
                     selected_todo["subtasks"].pop(i)
+                    update_task_completion(st.session_state.selected_task)
                     st.rerun()
         
         if not selected_todo.get("done", False):
@@ -306,6 +326,7 @@ with col2:
                 if st.button("Add Subtask"):
                     if new_subtask:
                         selected_todo["subtasks"].append({"text": new_subtask, "done": False})
+                        update_task_completion(st.session_state.selected_task)
                         st.rerun()
             
             with col2_sub:
@@ -315,6 +336,7 @@ with col2:
                         for subtask in new_subtasks:
                             if not any(existing["text"] == subtask for existing in selected_todo["subtasks"]):
                                 selected_todo["subtasks"].append({"text": subtask, "done": False})
+                        update_task_completion(st.session_state.selected_task)
                         st.success("Generated new subtasks!")
                         st.rerun()
                     else:
@@ -325,6 +347,7 @@ with col2:
                 for subtask in new_subtasks:
                     if not any(existing["text"] == subtask for existing in selected_todo["subtasks"]):
                         selected_todo["subtasks"].append({"text": subtask, "done": False})
+                update_task_completion(st.session_state.selected_task)
                 st.success("Generated new subtasks!")
                 st.rerun()
 
