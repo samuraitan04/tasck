@@ -5,9 +5,9 @@ import re
 import json
 from streamlit_elements import elements, dashboard, mui, html, editor
 
-st.set_page_config(layout="wide", page_title="AI Task Manager")
+st.set_page_config(layout="wide", page_title="TASCK")
 
-st.title('TASCK')
+st.title('AI Task Manager')
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -193,20 +193,36 @@ with col2:
         # Add manual subtask (only if main task is not completed)
         if not selected_todo.get("done", False):
             new_subtask = st.text_input("Add Subtask", key="new_subtask")
-            if st.button("Add Subtask"):
-                if new_subtask:
-                    selected_todo["subtasks"].append({"text": new_subtask, "done": False})
-                    st.rerun()
+            col1_sub, col2_sub = st.columns(2)
             
-            # Generate AI subtasks
-            if st.button("Generate Subtasks with AI"):
+            with col1_sub:
+                if st.button("Add Subtask"):
+                    if new_subtask:
+                        selected_todo["subtasks"].append({"text": new_subtask, "done": False})
+                        st.rerun()
+            
+            with col2_sub:
+                # Generate AI subtasks based on the new_subtask text
+                if st.button("Generate Subtasks from This"):
+                    if new_subtask:
+                        new_subtasks = generate_subtasks(new_subtask)
+                        for subtask in new_subtasks:
+                            if not any(existing["text"] == subtask for existing in selected_todo["subtasks"]):
+                                selected_todo["subtasks"].append({"text": subtask, "done": False})
+                        st.success("Generated new subtasks!")
+                        st.rerun()
+                    else:
+                        st.warning("Please enter a task description first!")
+            
+            # Add a separate button for generating subtasks from main task
+            if st.button("Generate Subtasks from Main Task"):
                 new_subtasks = generate_subtasks(selected_todo["text"])
                 for subtask in new_subtasks:
                     if not any(existing["text"] == subtask for existing in selected_todo["subtasks"]):
                         selected_todo["subtasks"].append({"text": subtask, "done": False})
                 st.success("Generated new subtasks!")
                 st.rerun()
-        
+
         st.subheader("Task Notes")
         # Use a regular text area for task details
         task_content = st.text_area(
