@@ -13,6 +13,7 @@ def get_base64_encoded_image(image_path):
 st.set_page_config(layout="wide", page_title="TASCK")
 
 background_image_url = "https://media1.giphy.com/media/L2HuVpmuQhK3nu2vfz/giphy.webp?cid=ecf05e47rswuxbqubf8tjsxos6j4rpibg6c29g1h9ivwbu7d&ep=v1_gifs_search&rid=giphy.webp&ct=g"
+
 st.markdown(f"""
 <style>
     .stApp {{
