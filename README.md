@@ -1,5 +1,7 @@
 #  Techknow 2.0 hackathon project
 
+[text](obsidian://open?vault%3DObsidian%20Vault%26file%3DScreenshot%202025-03-07%20at%201.14.58%20PM.png)
+
 ## problem Statement
 
   Many people struggle with managing large or complex tasks because they can feel overwhelming and difficult to approach. Breaking down these tasks into smaller, actionable steps is often a time-consuming process. The lack of a clear structure can lead to confusion, procrastination, and decreased productivity.
