@@ -217,7 +217,7 @@ with col1:
         with col_text:
             # Display task with strikethrough if done
             if todo.get("done", False):
-                st.markdown(f"{todo['text']}", unsafe_allow_html=True)
+                st.markdown(f"<span style='text-decoration: line-through; color: #666;'>{todo['text']}</span>", unsafe_allow_html=True)
             else:
                 st.markdown(todo['text'])
             
@@ -227,7 +227,7 @@ with col1:
                     # Create indented layout for subtask
                     subtask_text = subtask['text']
                     if subtask.get('done', False) or todo.get('done', False):
-                        subtask_display = f"{subtask_text}"
+                        subtask_display = f"<span style='text-decoration: line-through; color: #666;'>{subtask_text}</span>"
                     else:
                         subtask_display = subtask_text
                     
@@ -303,7 +303,7 @@ with col2:
             with col_text:
                 # Display subtask with strikethrough if done
                 if subtask.get("done", False) or selected_todo.get("done", False):
-                    st.markdown(f"{subtask['text']}", unsafe_allow_html=True)
+                    st.markdown(f"<span style='text-decoration: line-through; color: #666;'>{subtask['text']}</span>", unsafe_allow_html=True)
                 else:
                     subtask_text = st.text_input("", value=subtask["text"], key=f"subtask_text_{i}")
                     if subtask_text != subtask["text"]:
