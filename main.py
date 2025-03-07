@@ -7,7 +7,7 @@ from streamlit_elements import elements, dashboard, mui, html, editor
 
 st.set_page_config(layout="wide", page_title="AI Task Manager")
 
-st.title('AI Task Manager')
+st.title('TASCK')
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
