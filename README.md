@@ -1,6 +1,6 @@
 #  Techknow 2.0 hackathon project
 
-![text](obsidian://open?vault%3DObsidian%20Vault%26file%3DScreenshot%202025-03-07%20at%201.14.58%20PM.png)
+![text](https://github.com/samuraitan04/tasck/blob/main/logo.png?raw=true)
 
 ## problem Statement
 
