@@ -15,19 +15,41 @@ def get_base64_encoded_image(image_path):
 st.set_page_config(layout="wide", page_title="TASCK")
 
 # Background image URL - you can change this to any image URL you want
-background_image_url = "YOUR_IMAGE_URL_HERE"  # Example URL, replace with your preferred image URL
+background_image_url = "https://imgs.search.brave.com/CkKc23skkdLEW83Cn_cKYUAr_pEkk89sZOIQsz3SNxo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJhY2Nlc3Mu/Y29tL2Z1bGwvMjY0/MTA5Mi5naWY.gif"  # Example URL, replace with your preferred image URL
 
 # Custom CSS with background and styling
 st.markdown(f"""
 <style>
     .stApp {{
+        position: relative;
+        height: 100%;
+        overflow-y: auto;
+    }}
+    
+    body {{
+        background: transparent;
+    }}
+    
+    section[data-testid="stSidebar"] {{
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+    }}
+    
+    .stApp::before {{
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background-image: url("{background_image_url}");
-        z-index: -2;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-attachment: fixed;   
+        background-attachment: fixed;
+        pointer-events: none;
     }}
+    
     .main-title {{
         color: #ffffff;
         font-size: 3em;
@@ -37,6 +59,7 @@ st.markdown(f"""
         text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         position: relative;
     }}
+    
     .subheader {{
         color: #ffffff;
         font-size: 1.5em;
@@ -45,6 +68,7 @@ st.markdown(f"""
         text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         position: relative;
     }}
+    
     .task-container {{
         background: rgba(255, 255, 255, 0.85);
         padding: 20px;
@@ -52,25 +76,57 @@ st.markdown(f"""
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(5px);
         position: relative;
+        margin-bottom: 20px;
     }}
+    
     .placeholder-text {{
         color: #666;
         font-style: italic;
     }}
+    
     /* Make text more readable on the background */
     .task-container .stMarkdown {{
         color: #000000;
     }}
+    
     /* Style for checkboxes to make them more visible */
     .stCheckbox {{
         background-color: rgba(255, 255, 255, 0.9);
         padding: 2px;
         border-radius: 4px;
     }}
+    
     /* Ensure content stays above blurred background */
     .stApp > * {{
         position: relative;
         z-index: 1;
+    }}
+
+    /* Fix scrollbar styling */
+    ::-webkit-scrollbar {{
+        width: 10px;
+        background: rgba(255, 255, 255, 0.1);
+    }}
+
+    ::-webkit-scrollbar-thumb {{
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 5px;
+    }}
+
+    ::-webkit-scrollbar-track {{
+        background: rgba(0, 0, 0, 0.1);
+    }}
+
+    /* Ensure main content area is scrollable */
+    .main {{
+        overflow-y: auto;
+        height: 100vh;
+        padding-bottom: 50px;
+    }}
+
+    /* Fix for streamlit elements */
+    .element-container {{
+        overflow: visible !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -161,7 +217,7 @@ with col1:
         with col_text:
             # Display task with strikethrough if done
             if todo.get("done", False):
-                st.markdown(f"<s>{todo['text']}</s>", unsafe_allow_html=True)
+                st.markdown(f"{todo['text']}", unsafe_allow_html=True)
             else:
                 st.markdown(todo['text'])
             
@@ -171,7 +227,7 @@ with col1:
                     # Create indented layout for subtask
                     subtask_text = subtask['text']
                     if subtask.get('done', False) or todo.get('done', False):
-                        subtask_display = f"<s>{subtask_text}</s>"
+                        subtask_display = f"{subtask_text}"
                     else:
                         subtask_display = subtask_text
                     
@@ -247,7 +303,7 @@ with col2:
             with col_text:
                 # Display subtask with strikethrough if done
                 if subtask.get("done", False) or selected_todo.get("done", False):
-                    st.markdown(f"<s>{subtask['text']}</s>", unsafe_allow_html=True)
+                    st.markdown(f"{subtask['text']}", unsafe_allow_html=True)
                 else:
                     subtask_text = st.text_input("", value=subtask["text"], key=f"subtask_text_{i}")
                     if subtask_text != subtask["text"]:
