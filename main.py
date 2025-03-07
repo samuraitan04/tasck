@@ -4,10 +4,78 @@ import time
 import re
 import json
 from streamlit_elements import elements, dashboard, mui, html, editor
+import base64
 
+# Function to load and encode the background image
+def get_base64_encoded_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode()
+
+# Page configuration
 st.set_page_config(layout="wide", page_title="TASCK")
 
-st.title('AI Task Manager')
+# Background image URL - you can change this to any image URL you want
+background_image_url = "YOUR_IMAGE_URL_HERE"  # Example URL, replace with your preferred image URL
+
+# Custom CSS with background and styling
+st.markdown(f"""
+<style>
+    .stApp {{
+        background-image: url("{background_image_url}");
+        z-index: -2;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;   
+    }}
+    .main-title {{
+        color: #ffffff;
+        font-size: 3em;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 1em;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        position: relative;
+    }}
+    .subheader {{
+        color: #ffffff;
+        font-size: 1.5em;
+        font-weight: 600;
+        margin-bottom: 1em;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        position: relative;
+    }}
+    .task-container {{
+        background: rgba(255, 255, 255, 0.85);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        position: relative;
+    }}
+    .placeholder-text {{
+        color: #666;
+        font-style: italic;
+    }}
+    /* Make text more readable on the background */
+    .task-container .stMarkdown {{
+        color: #000000;
+    }}
+    /* Style for checkboxes to make them more visible */
+    .stCheckbox {{
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 2px;
+        border-radius: 4px;
+    }}
+    /* Ensure content stays above blurred background */
+    .stApp > * {{
+        position: relative;
+        z-index: 1;
+    }}
+</style>
+""", unsafe_allow_html=True)
+
+st.title('TASCK')
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
