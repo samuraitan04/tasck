@@ -14,10 +14,10 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-if prompt := st.chat_input("Ask anything...."):
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    st.session_state.messages.append({"role": "user", "content": prompt})
+prompt = st.chat_input("Ask anything....")
+    #with st.chat_message("user"):
+        #st.markdown(prompt)
+    #st.session_state.messages.append({"role": "user", "content": prompt})
 
 client = Groq(
     api_key= "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",
@@ -50,9 +50,9 @@ try:
         points = re.findall(pattern, response, flags=re.MULTILINE)
         #st.markdown(points)
         for i, point in enumerate(points, 1):
-            st.session_state.checkbox(f"{point}")
+            st.checkbox(f"{point}")
 
-    #st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": response})
 except:
     pass
 
