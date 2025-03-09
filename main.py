@@ -12,7 +12,7 @@ def get_base64_encoded_image(image_path):
 
 st.set_page_config(layout="wide", page_title="TASCK")
 
-background_image_url = "https://media1.giphy.com/media/L2HuVpmuQhK3nu2vfz/giphy.webp?cid=ecf05e47rswuxbqubf8tjsxos6j4rpibg6c29g1h9ivwbu7d&ep=v1_gifs_search&rid=giphy.webp&ct=g"
+background_image_url = "https://imgs.search.brave.com/TWN1FyoVLAgjbUy22kxsFpapx--zROvid4C5T8YFjnQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9naWZk/Yi5jb20vaW1hZ2Vz/L2hpZ2gvYWVzdGhl/dGljLWFuaW1lLXRv/d2VyLXBlbmNpbC1z/a2V0Y2gtcmc0OGpo/aTZyZG5vaDQ5cS5n/aWY.gif"
 
 st.markdown(f"""
 <style>
