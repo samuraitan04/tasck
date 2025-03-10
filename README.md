@@ -1,6 +1,6 @@
 # TASCK - Task Management Application
 
-<img src="https://example.com/your-image.png" width="300" height="300" />
+<img src="logo.png" width="300" height="300" />
 
 
 ## problem Statement
