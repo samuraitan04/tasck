@@ -1,6 +1,7 @@
 # TASCK - Task Management Application
 
-![text](https://github.com/samuraitan04/tasck/blob/main/logo.png?raw=true)
+<img src="https://example.com/your-image.png" width="300" height="300" />
+
 
 ## problem Statement
 
