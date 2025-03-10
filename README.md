@@ -6,7 +6,7 @@
 
   Many people struggle with managing large or complex tasks because they can feel overwhelming and difficult to approach. Breaking down these tasks into smaller, actionable steps is often a time-consuming process. The lack of a clear structure can lead to confusion, procrastination, and decreased productivity.  
 
-## Overview
+## Overview(solution)
 
 **TASCK** is a task management web application built with Streamlit. It allows users to create tasks, break them down into subtasks, mark tasks and subtasks as completed, edit task details, and remove tasks. The application also integrates with OpenAI's Groq API to generate tasks and subtasks from a natural language description.
 
@@ -44,16 +44,53 @@ streamlit-elements>=0.1.0
 
 ## How to Run the App
 
-1. Install the dependencies using the following command:
+1. **Clone the Repository**:
+   Clone the project repository from GitHub:
+   ```bash
+   git clone https://github.com/samuraitan04/tasck.git
+   cd tasck (or naviagate to the folder and open terminal manually or thorough your IDE)
+   ```
+
+2. **Set Up a Virtual Environment(This is completely optional!!)**:
+   (Recommended to avoid conflicts with global packages installed in your systems.)
+
+   - **Create a Virtual Environment**:
+     - On Linux/macOS:
+       ```bash
+       python3 -m venv venv
+       ```
+     - On Windows:
+       ```bash
+       python -m venv venv
+       ```
+
+   - **Activate the Virtual Environment**:
+     - On Linux/macOS:
+       ```bash
+       source venv/bin/activate
+       ```
+     - On Windows:
+       ```bash
+       .\venv\Scripts\activate
+       ```
+
+3. **Install Dependencies**:
+   Install the required packages using:
    ```bash
    pip install -r requirements.txt
    ```
+   if it doesn't work try
    
-2. Run the Streamlit app:
+   ```bash
+   python3 -m pip install -r requirements.txt
+   ```
+
+4. **Run the Streamlit Application**:
+   Finally, start the Streamlit app:
    ```bash
    streamlit run app.py
    ```
    
-3. Open the app in your browser and start managing your tasks.
+5. Open the app in your browser and start managing your tasks.
 
 ---
